@@ -1,40 +1,35 @@
 module Polynomial
 
-// Хвостовая рекурсия для решета Эратосфена
-let sieveOfEratosthenes n =
-    let rec sieve numbers primes =
-        match numbers with
-        | [] -> primes
-        | p :: xs ->
-            let filtered = List.filter (fun x -> x % p <> 0) xs
-            sieve filtered (p :: primes)
-
-    let initialNumbers = [ 2..n ]
-    sieve initialNumbers [] 
+// Обычная рекурсия 
+let rec isPrime n divisor =
+    match n, divisor with
+    | n, _ when n <= 1 -> false 
+    | n, divisor when divisor * divisor > n -> true 
+    | n, divisor when n % divisor = 0 -> false 
+    | n, divisor -> isPrime n (divisor + 1)
 
 
-let isPrime primeSet value = Set.contains value primeSet
+
 
 //Хвостовая рекурсия
-let rec countPrimes a b n primeSet =
+let rec countPrimes a b n =
     let formula = n * n + a * n + b
 
-    if isPrime primeSet formula then
-        countPrimes a b (n + 1) primeSet
+    if isPrime formula 2 then
+        countPrimes a b (n + 1) 
     else
         n
 
 // Хвостовая рекурсия
 let findBestCoefficientsRec limitA limitB maxPrime =
-    let primes = sieveOfEratosthenes maxPrime
-    let primeSet = Set.ofList primes
+
 
     let rec findBest a b maxCount maxA maxB =
         match a, b with
         | _ when a >= limitA -> (maxA * maxB, maxCount)
         | _ when b > limitB -> findBest (a + 1) -limitB maxCount maxA maxB
         | _ ->
-            let count = countPrimes a b 0 primeSet
+            let count = countPrimes a b 0 
 
             let (newMaxCount, newMaxA, newMaxB) =
                 if count > maxCount then
@@ -48,11 +43,9 @@ let findBestCoefficientsRec limitA limitB maxPrime =
 
 // Реализация  с помощью List
 let findBestCoefficientsList limitA limitB maxPrime =
-    let primes = sieveOfEratosthenes maxPrime
-    let primeSet = Set.ofList primes
+ 
 
-
-    let countPrimesForAB a b = countPrimes a b 0 primeSet
+    let countPrimesForAB a b = countPrimes a b 0 
 
     let pairs =
         [ for a in -limitA + 1 .. limitA - 1 do
@@ -76,8 +69,7 @@ let findBestCoefficientsList limitA limitB maxPrime =
 
 //Генерация последовтельности с помщью map
 let findBestCoefficientsMap limitA limitB maxPrime =
-    let primes = sieveOfEratosthenes maxPrime
-    let primeSet = Set.ofList primes
+
 
 
     let coeffs =
@@ -89,17 +81,13 @@ let findBestCoefficientsMap limitA limitB maxPrime =
 
     let results =
         coeffs
-        |> List.map (fun (a, b) -> (a * b, countPrimes a b 0 primeSet))
+        |> List.map (fun (a, b) -> (a * b, countPrimes a b 0 ))
 
 
     results |> List.maxBy snd
 
 //Генерация последовтельности с помщью seq
 let findBestCoefficientsSeq limitA limitB maxPrime =
-    let primes = sieveOfEratosthenes maxPrime
-    let primeSet = Set.ofList primes
-
-
     let coeffs =
         seq {
             for a in -limitA + 1 .. limitA - 1 do
@@ -109,6 +97,6 @@ let findBestCoefficientsSeq limitA limitB maxPrime =
 
     let results =
         coeffs
-        |> Seq.map (fun (a, b) -> (a * b, countPrimes a b 0 primeSet))
+        |> Seq.map (fun (a, b) -> (a * b, countPrimes a b 0))
 
     results |> Seq.maxBy snd
