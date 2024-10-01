@@ -138,19 +138,15 @@ $где |a| < 1000∣a∣<1000 и |b| \leq 1000∣b∣≤1000 (то есть aa 
 ### Решения
 
 #### 1. Простая рекурсия
-Используем её для нахождения простых чисел с помjщью алгоритма рето Эратосфена
+Для проверки является ли n - простым используем обычный алгоритм перебора делителей до $sqrt(n)$
 
 ```fsharp
-let sieveOfEratosthenes n =
-    let rec sieve numbers primes =
-        match numbers with
-        | [] -> List.rev primes
-        | p :: xs ->
-            let filtered = List.filter (fun x -> x % p <> 0) xs
-            sieve filtered (p :: primes) // Обновляем список простых чисел
-
-    let initialNumbers = [ 2..n ]
-    sieve initialNumbers [] 
+let rec isPrime n divisor =
+    match n, divisor with
+    | n, _ when n <= 1 -> false 
+    | n, divisor when divisor * divisor > n -> true 
+    | n, divisor when n % divisor = 0 -> false 
+    | n, divisor -> isPrime n (divisor + 1)
 
 ```
 
@@ -172,10 +168,13 @@ let rec countPrimes a b n primeSet =
 С помощью функции высшего порядка List.fold сворачиваем массив пар (a,b) в 1 структуру (maxA, maxB, maxCount)
 
 ```fsharp
-let pairs =
+let countPrimesForAB a b = countPrimes a b 0 
+
+    let pairs =
         [ for a in -limitA + 1 .. limitA - 1 do
               for b in -limitB .. limitB do
                   yield (a, b) ]
+
 
     let (maxA, maxB, maxCount) =
         pairs
@@ -188,6 +187,8 @@ let pairs =
                 else
                     (maxA, maxB, maxCount))
             (0, 0, 0)
+
+    (maxA * maxB, maxCount)
 ```
 
 #### 4. Использование `map`
