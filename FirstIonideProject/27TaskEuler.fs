@@ -1,10 +1,10 @@
 module Polynomial
 
-// Обычная рекурсия для решета Эратосфена
+// Хвостовая рекурсия для решета Эратосфена
 let sieveOfEratosthenes n =
     let rec sieve numbers primes =
         match numbers with
-        | [] -> List.rev primes
+        | [] -> primes
         | p :: xs ->
             let filtered = List.filter (fun x -> x % p <> 0) xs
             sieve filtered (p :: primes)
