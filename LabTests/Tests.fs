@@ -38,25 +38,35 @@ let ``findLargestPalindromeUsingSeq should return the largest palindrome`` () =
     let result = findLargestPalindromeUsingSeq ()
     Assert.Equal(906609, result)
 
+[<Fact>]
+let ``Test isPrime``()=
+    let result = isPrime 4 2 
+    Assert.Equal(false, result)
+
+[<Fact>]
+let ``Test isPrimeSnd``()=
+    let result = isPrime 5 2 
+    Assert.Equal(true, result)
+[<Fact>]
 let ``Test findBestCoefficientsRec`` () =
     let result = findBestCoefficientsRec 1000 1000 1000
     Assert.Equal(-59231, fst result) 
-    Assert.Equal(62, snd result) 
+    Assert.Equal(71, snd result) 
     
 
 [<Fact>]
 let ``Test findBestCoefficientsList`` () =
     let result = findBestCoefficientsList 1000 1000 1000
     Assert.Equal(-59231, fst result) 
-    Assert.Equal(62, snd result)
+    Assert.Equal(71, snd result)
 [<Fact>]
 let ``Test findBestCoefficientsMap`` () =
     let result = findBestCoefficientsMap 1000 1000 1000
     Assert.Equal(-59231, fst result) 
-    Assert.Equal(62, snd result) 
+    Assert.Equal(71, snd result) 
 
 [<Fact>]
 let ``Test findBestCoefficientsSeq`` () =
     let result = findBestCoefficientsSeq 1000 1000 1000
     Assert.Equal(-59231, fst result) 
-    Assert.Equal(62, snd result)
+    Assert.Equal(71, snd result)
