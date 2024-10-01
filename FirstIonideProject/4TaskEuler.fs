@@ -47,7 +47,7 @@ let findLargestPalindromeUsingMap () =
 
     products |> List.filter isPalindrome |> List.max
 
-// Бесконечная последовательнось
+// Ленивые вычисления
 let generateProducts () =
     seq {
         for x in 999..-1..100 do
