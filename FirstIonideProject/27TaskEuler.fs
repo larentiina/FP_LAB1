@@ -7,10 +7,10 @@ let sieveOfEratosthenes n =
         | [] -> List.rev primes
         | p :: xs ->
             let filtered = List.filter (fun x -> x % p <> 0) xs
-            sieve filtered (p :: primes) // Обновляем список простых чисел
+            sieve filtered (p :: primes)
 
     let initialNumbers = [ 2..n ]
-    sieve initialNumbers [] // Начинаем с пустого списка простых чисел
+    sieve initialNumbers [] 
 
 
 let isPrime primeSet value = Set.contains value primeSet
